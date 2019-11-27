@@ -1,15 +1,16 @@
 package cn.zynworld.springexample;
 
-import org.springframework.context.annotation.AnnotationConfigApplicationContext;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.*;
 import org.springframework.stereotype.Component;
 
 /**
  * @author zhaoyuening
  */
 @Configuration
+@EnableAspectJAutoProxy
+@ComponentScan(basePackages = "cn.zynworld.springexample")
 public class Demo {
+
 
 	public static class Student {
 

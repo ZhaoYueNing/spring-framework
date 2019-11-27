@@ -139,6 +139,8 @@ public class AnnotatedBeanDefinitionReader {
 	}
 
 	/**
+	 * 注册一个基于类注解标识元数据的 Bean
+	 *
 	 * Register a bean from the given bean class, deriving its metadata from
 	 * class-declared annotations.
 	 * @param beanClass the class of the bean
@@ -250,37 +252,38 @@ public class AnnotatedBeanDefinitionReader {
 			@Nullable Class<? extends Annotation>[] qualifiers, @Nullable Supplier<T> supplier,
 			@Nullable BeanDefinitionCustomizer[] customizers) {
 
-		AnnotatedGenericBeanDefinition abd = new AnnotatedGenericBeanDefinition(beanClass);
-		if (this.conditionEvaluator.shouldSkip(abd.getMetadata())) {
+		AnnotatedGenericBeanDefinition beanDefinition = new AnnotatedGenericBeanDefinition(beanClass);
+		// 判断 Bean 是否满足约束条件
+		if (this.conditionEvaluator.shouldSkip(beanDefinition.getMetadata())) {
 			return;
 		}
 
-		abd.setInstanceSupplier(supplier);
-		ScopeMetadata scopeMetadata = this.scopeMetadataResolver.resolveScopeMetadata(abd);
-		abd.setScope(scopeMetadata.getScopeName());
-		String beanName = (name != null ? name : this.beanNameGenerator.generateBeanName(abd, this.registry));
+		beanDefinition.setInstanceSupplier(supplier);
+		ScopeMetadata scopeMetadata = this.scopeMetadataResolver.resolveScopeMetadata(beanDefinition);
+		beanDefinition.setScope(scopeMetadata.getScopeName());
+		String beanName = (name != null ? name : this.beanNameGenerator.generateBeanName(beanDefinition, this.registry));
 
-		AnnotationConfigUtils.processCommonDefinitionAnnotations(abd);
+		AnnotationConfigUtils.processCommonDefinitionAnnotations(beanDefinition);
 		if (qualifiers != null) {
 			for (Class<? extends Annotation> qualifier : qualifiers) {
 				if (Primary.class == qualifier) {
-					abd.setPrimary(true);
+					beanDefinition.setPrimary(true);
 				}
 				else if (Lazy.class == qualifier) {
-					abd.setLazyInit(true);
+					beanDefinition.setLazyInit(true);
 				}
 				else {
-					abd.addQualifier(new AutowireCandidateQualifier(qualifier));
+					beanDefinition.addQualifier(new AutowireCandidateQualifier(qualifier));
 				}
 			}
 		}
 		if (customizers != null) {
 			for (BeanDefinitionCustomizer customizer : customizers) {
-				customizer.customize(abd);
+				customizer.customize(beanDefinition);
 			}
 		}
 
-		BeanDefinitionHolder definitionHolder = new BeanDefinitionHolder(abd, beanName);
+		BeanDefinitionHolder definitionHolder = new BeanDefinitionHolder(beanDefinition, beanName);
 		definitionHolder = AnnotationConfigUtils.applyScopedProxyMode(scopeMetadata, definitionHolder, this.registry);
 		BeanDefinitionReaderUtils.registerBeanDefinition(definitionHolder, this.registry);
 	}

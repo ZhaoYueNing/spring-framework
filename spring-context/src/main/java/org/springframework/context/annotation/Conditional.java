@@ -23,6 +23,8 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
+ * 通过该注解定义 bean 注册的前置条件，只有满足该注解中包含的全部条件，Bean才能被成功注入
+ *
  * Indicates that a component is only eligible for registration when all
  * {@linkplain #value specified conditions} match.
  *
