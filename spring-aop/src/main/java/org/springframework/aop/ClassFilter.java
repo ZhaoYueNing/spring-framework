@@ -17,6 +17,8 @@
 package org.springframework.aop;
 
 /**
+ * spring aop 对织入类型进行匹配
+ * 当匹配失败将不会考虑为该对象进行下一步的织入处理
  * Filter that restricts matching of a pointcut or introduction to
  * a given set of target classes.
  *
@@ -44,6 +46,8 @@ public interface ClassFilter {
 
 
 	/**
+	 * 如果对类型不进行过滤直接使用该对象
+	 * 直接返回 True
 	 * Canonical instance of a ClassFilter that matches all classes.
 	 */
 	ClassFilter TRUE = TrueClassFilter.INSTANCE;

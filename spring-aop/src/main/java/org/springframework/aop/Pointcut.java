@@ -17,6 +17,7 @@
 package org.springframework.aop;
 
 /**
+ * 对spring aop 切点概念的抽象
  * Core Spring pointcut abstraction.
  *
  * <p>A pointcut is composed of a {@link ClassFilter} and a {@link MethodMatcher}.
@@ -33,12 +34,14 @@ package org.springframework.aop;
 public interface Pointcut {
 
 	/**
+	 * 进行类级别过滤匹配
 	 * Return the ClassFilter for this pointcut.
 	 * @return the ClassFilter (never {@code null})
 	 */
 	ClassFilter getClassFilter();
 
 	/**
+	 * 进行方法级别的匹配
 	 * Return the MethodMatcher for this pointcut.
 	 * @return the MethodMatcher (never {@code null})
 	 */
@@ -46,6 +49,7 @@ public interface Pointcut {
 
 
 	/**
+	 * 该实例解析任何类或方法都返回 True
 	 * Canonical Pointcut instance that always matches.
 	 */
 	Pointcut TRUE = TruePointcut.INSTANCE;

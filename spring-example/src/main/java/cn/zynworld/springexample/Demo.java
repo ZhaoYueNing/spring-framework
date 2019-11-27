@@ -31,5 +31,8 @@ public class Demo {
 		AnnotationConfigApplicationContext applicationContext = new AnnotationConfigApplicationContext(Demo.class);
 		Student student = applicationContext.getBean(Student.class);
 		System.out.println(student.getName());
+
+		System.out.println("none ioc container");
+		System.out.println(new Student().getName());
 	}
 }
