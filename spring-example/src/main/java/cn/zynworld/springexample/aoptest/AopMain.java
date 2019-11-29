@@ -16,10 +16,9 @@ public class AopMain {
 		return new CustomMethodPointcut();
 	}
 
-	public static void main(String[] args) {
+	public static void main(String[] args) throws InterruptedException {
 		AnnotationConfigApplicationContext applicationContext = new AnnotationConfigApplicationContext(AopMain.class);
 		AopHelloService helloService = applicationContext.getBean(AopHelloService.class);
-		// helloService.sayHello("zhao");
-		helloService.customPointcutTest();
+		helloService.sayHello("zhao");
 	}
 }

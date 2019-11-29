@@ -16,6 +16,8 @@
 
 package org.springframework.aop;
 
+import org.aopalliance.aop.Advice;
+
 /**
  * Superinterface for advisors that perform one or more AOP <b>introductions</b>.
  *

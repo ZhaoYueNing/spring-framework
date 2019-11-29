@@ -8,6 +8,10 @@ import org.springframework.stereotype.Component;
 @Component
 public class AopHelloService {
 
+	public AopHelloService() {
+		System.out.println("init start");
+	}
+
 	@AopMethodMatchingAnnotation
 	public void sayHello(String name){
 		String hello = "hello " + name;
@@ -16,5 +20,10 @@ public class AopHelloService {
 
 	public void customPointcutTest() {
 		System.out.println("test custom pointcut!");
+	}
+
+	@AopMethodTimeAnnotation
+	public void testTimeLog() throws InterruptedException {
+		Thread.sleep(1000);
 	}
 }
