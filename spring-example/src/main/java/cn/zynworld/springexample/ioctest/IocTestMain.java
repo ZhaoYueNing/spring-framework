@@ -8,10 +8,9 @@ import org.springframework.beans.PropertyValue;
 import org.springframework.beans.factory.BeanFactory;
 import org.springframework.beans.factory.config.BeanDefinition;
 import org.springframework.beans.factory.config.ConstructorArgumentValues;
-import org.springframework.beans.factory.support.AbstractBeanDefinition;
-import org.springframework.beans.factory.support.BeanDefinitionBuilder;
-import org.springframework.beans.factory.support.DefaultListableBeanFactory;
-import org.springframework.beans.factory.support.RootBeanDefinition;
+import org.springframework.beans.factory.support.*;
+import org.springframework.beans.factory.xml.XmlBeanDefinitionReader;
+import org.springframework.beans.factory.xml.XmlBeanFactory;
 
 /**
  * @author zhaoyuening
@@ -21,8 +20,11 @@ public class IocTestMain {
 	/**
 	 * 通过编码方式录入bean信息
 	 */
-	public static void buildBeansByCode() {
-		DefaultListableBeanFactory beanRegister = new DefaultListableBeanFactory();
+	private static void buildBeansByCode() {
+		// DefaultListableBeanFactory 实现了BeanDefinitionRegistry & BeanFactory 接口
+		// BeanFactory 负责对 bean 进行获取 面向使用者
+		// BeanDefinitionRegistry 负责对bean进行注册及依赖管理
+		BeanDefinitionRegistry beanRegister = new DefaultListableBeanFactory();
 
 		// 创建 beanDefinition
 		BeanDefinitionBuilder orderServiceDefinitionBuilder = BeanDefinitionBuilder.genericBeanDefinition(OrderService.class);
@@ -36,7 +38,27 @@ public class IocTestMain {
 		beanRegister.registerBeanDefinition("orderRepository", orderRepositoryDefinitionBuilder.getRawBeanDefinition());
 
 		// 使用bean工厂获取对象
-		BeanFactory beanFactory = beanRegister;
+		BeanFactory beanFactory = (BeanFactory) beanRegister;
+		OrderService orderService = beanFactory.getBean(OrderService.class);
+
+		// 调用方法
+		Order order = new Order();
+		order.setOrderId(100L);
+		orderService.saveOrder(order);
+	}
+
+	/**
+	 * 通过 xml 配置文件方式来构建bean
+	 */
+	private static void buildBeanByXml() {
+		BeanDefinitionRegistry beanRegister = new DefaultListableBeanFactory();
+
+		// 通过 BeanDefinitionReader 来对配置文件进行解析
+		BeanDefinitionReader beanDefinitionReader = new XmlBeanDefinitionReader(beanRegister);
+		beanDefinitionReader.loadBeanDefinitions("classpath:ioctest/beans.xml");
+
+		// 使用bean工厂获取对象
+		BeanFactory beanFactory = (BeanFactory) beanRegister;
 		OrderService orderService = beanFactory.getBean(OrderService.class);
 
 		// 调用方法
@@ -48,7 +70,9 @@ public class IocTestMain {
 
 	public static void main(String[] args) {
 		// 通过编码方式构建bean及其依赖
-		buildBeansByCode();
+		// buildBeansByCode();
 
+		// 通过xml配置文件来构建bean
+		buildBeanByXml();
 	}
 }
