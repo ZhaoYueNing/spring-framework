@@ -54,6 +54,8 @@ import org.springframework.core.io.Resource;
 @SuppressWarnings({"serial", "all"})
 public class XmlBeanFactory extends DefaultListableBeanFactory {
 
+	// 通过此对xml进行读取并解析为beanDefinition
+	// 解析完成后将beanDefinition注册到beanRegister及this
 	private final XmlBeanDefinitionReader reader = new XmlBeanDefinitionReader(this);
 
 
@@ -75,7 +77,9 @@ public class XmlBeanFactory extends DefaultListableBeanFactory {
 	 * @throws BeansException in case of loading or parsing errors
 	 */
 	public XmlBeanFactory(Resource resource, BeanFactory parentBeanFactory) throws BeansException {
+		// 初始化容器并配置父beanFactory
 		super(parentBeanFactory);
+		// 调用xmlBeanDefinitionReader加载注册beanDefinitions
 		this.reader.loadBeanDefinitions(resource);
 	}
 

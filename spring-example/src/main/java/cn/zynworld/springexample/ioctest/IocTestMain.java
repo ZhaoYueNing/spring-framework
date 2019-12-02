@@ -3,14 +3,12 @@ package cn.zynworld.springexample.ioctest;
 import cn.zynworld.springexample.ioctest.service.Order;
 import cn.zynworld.springexample.ioctest.service.OrderRepositoryImpl;
 import cn.zynworld.springexample.ioctest.service.OrderService;
-import org.springframework.beans.MutablePropertyValues;
-import org.springframework.beans.PropertyValue;
 import org.springframework.beans.factory.BeanFactory;
-import org.springframework.beans.factory.config.BeanDefinition;
-import org.springframework.beans.factory.config.ConstructorArgumentValues;
-import org.springframework.beans.factory.support.*;
+import org.springframework.beans.factory.support.BeanDefinitionBuilder;
+import org.springframework.beans.factory.support.BeanDefinitionReader;
+import org.springframework.beans.factory.support.BeanDefinitionRegistry;
+import org.springframework.beans.factory.support.DefaultListableBeanFactory;
 import org.springframework.beans.factory.xml.XmlBeanDefinitionReader;
-import org.springframework.beans.factory.xml.XmlBeanFactory;
 
 /**
  * @author zhaoyuening

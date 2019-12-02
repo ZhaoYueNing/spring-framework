@@ -5,6 +5,9 @@ package cn.zynworld.springexample.ioctest.service;
  */
 public class OrderService {
 
+	public OrderService() {
+	}
+
 	private OrderRepository orderRepository;
 
 	public void saveOrder(Order order) {
